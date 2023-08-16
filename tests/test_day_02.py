@@ -45,4 +45,4 @@ def test_final_score_sample_fixed_outcome():
 
 def test_final_score_full_fixed_outcome():
     res = d2.final_scores(INPUT_FULL_PATH, True)
-    assert res["p2"] == 12
+    assert res["p2"] == 13448
