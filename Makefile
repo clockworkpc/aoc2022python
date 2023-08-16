@@ -48,9 +48,9 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr .pytest_cache
 
 lint/flake8: ## check style with flake8
-	flake8 advent_of_code_2022 tests
+	flake8 aoc2022 tests
 lint/black: ## check style with black
-	black --check advent_of_code_2022 tests
+	black --check aoc2022 tests
 
 lint: lint/flake8 lint/black ## check style
 
@@ -61,15 +61,15 @@ test-all: ## run tests on every Python version with tox
 	tox
 
 coverage: ## check code coverage quickly with the default Python
-	coverage run --source advent_of_code_2022 -m pytest
+	coverage run --source aoc2022 -m pytest
 	coverage report -m
 	coverage html
 	$(BROWSER) htmlcov/index.html
 
 docs: ## generate Sphinx HTML documentation, including API docs
-	rm -f docs/advent_of_code_2022.rst
+	rm -f docs/aoc2022.rst
 	rm -f docs/modules.rst
-	sphinx-apidoc -o docs/ advent_of_code_2022
+	sphinx-apidoc -o docs/ aoc2022
 	$(MAKE) -C docs clean
 	$(MAKE) -C docs html
 	$(BROWSER) docs/_build/html/index.html

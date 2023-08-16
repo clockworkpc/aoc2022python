@@ -2,7 +2,7 @@
 
 import pytest
 
-from advent_of_code_2022 import day_01 as d1
+from aoc2022 import day_01 as d1
 
 input_test_path = "tests/input_files/day_01_input_sample.txt"
 input_full_path = "tests/input_files/day_01_input.txt"

@@ -3,11 +3,11 @@ Advent of Code 2022
 ===================
 
 
-.. image:: https://img.shields.io/pypi/v/advent_of_code_2022.svg
-        :target: https://pypi.python.org/pypi/advent_of_code_2022
+.. image:: https://img.shields.io/pypi/v/aoc2022.svg
+        :target: https://pypi.python.org/pypi/aoc2022
 
-.. image:: https://img.shields.io/travis/clockworkpc/advent_of_code_2022.svg
-        :target: https://travis-ci.com/clockworkpc/advent_of_code_2022
+.. image:: https://img.shields.io/travis/clockworkpc/aoc2022.svg
+        :target: https://travis-ci.com/clockworkpc/aoc2022
 
 .. image:: https://readthedocs.org/projects/advent-of-code-2022/badge/?version=latest
         :target: https://advent-of-code-2022.readthedocs.io/en/latest/?version=latest

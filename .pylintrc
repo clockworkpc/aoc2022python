@@ -1,0 +1,2 @@
+[pylint.messages_control]
+disable = missing-module-docstring,missing-class-docstring,missing-function-docstring,unspecified-encoding
