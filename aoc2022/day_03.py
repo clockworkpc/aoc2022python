@@ -1,9 +1,12 @@
 """Day 03"""
 
-import string
+
 import json
+from itertools import chain
 
 PRIORITIES_PATH = "aoc2022/day_03_priorities.json"
+
+"""Part 01"""
 
 
 def priority_dictionary():
@@ -68,4 +71,65 @@ def all_share_item_scores(path):
 
 def all_share_item_scores_sum(path):
     scores = all_share_item_scores(path)
+    return sum(scores)
+
+
+"""PART 02"""
+
+
+def group_lines(path, size=3):
+    group_ary = [[]]
+    lines = split_strip(path)
+    for index, line in enumerate(lines, 1):
+        group_ary[-1].append(line)
+
+        if index % 3 == 0 and index != len(lines):
+            new_group = []
+            group_ary.append(new_group)
+
+    return group_ary
+
+
+def common_group_items(grouped_lines):
+    def reduce_lists(nested_list):
+        return list(map(lambda x: list(set(x)), nested_list))
+
+    def extract_common_items(str_ary):
+        collection = []
+        for index, string in enumerate(str_ary, 1):
+            if index == len(str_ary):
+                break
+
+            common_items = [item for item in string if item in str_ary[index]]
+            collection.append(common_items)
+            collection = reduce_lists(collection)
+
+        return collection
+
+    all_common_items = extract_common_items(grouped_lines)
+    unique_common_items = extract_common_items(all_common_items)
+    return list(chain.from_iterable(unique_common_items))
+
+
+def collect_common_group_items(path):
+    grouped_lines_ary = group_lines(path)
+
+    collected_common_items = []
+    for grouped_lines in grouped_lines_ary:
+        common_items = common_group_items(grouped_lines)
+        collected_common_items.append(common_items)
+
+    return list(chain.from_iterable(collected_common_items))
+
+
+def collect_common_group_item_scores(path):
+    common_items = collect_common_group_items(path)
+    pd = priority_dictionary()
+    common_scores = list(map(lambda x: pd[x], common_items))
+
+    return common_scores
+
+
+def sum_common_item_scores(path):
+    scores = collect_common_group_item_scores(path)
     return sum(scores)
