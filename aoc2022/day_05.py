@@ -83,7 +83,7 @@ def import_map(path):
     return new_map_with_crates(path, empty_map)
 
 
-def move_crate(my_map, cmd):
+def move_crate(my_map, cmd, cratemover_old=True):
     def extract_substring(word, integer=True):
         string = re.search(r"\b{}\b \d+".format(word), cmd).group()
         number = re.search(r"\d+", string).group()
@@ -96,9 +96,15 @@ def move_crate(my_map, cmd):
     origin = my_map[origin_str]
     destination = my_map[destination_str]
 
-    for _ in range(move):
-        crate = origin.pop(0)
-        destination.insert(0, crate)
+    if cratemover_old:
+        for _ in range(move):
+            crate = origin.pop(0)
+            destination.insert(0, crate)
+    else:
+        crates = origin[:move]
+        del origin[:move]
+        destination[:0] = crates
+
     return my_map
 
 
@@ -111,12 +117,12 @@ def import_instructions(path):
     return instructions
 
 
-def top_crates_from_instructions(path):
+def top_crates_from_instructions(path, cratemover_old=True):
     my_map = import_map(path)
     instructions = import_instructions(path)
 
     for i in instructions:
-        move_crate(my_map, i)
+        move_crate(my_map, i, cratemover_old)
 
     return top_crates(my_map)
 
