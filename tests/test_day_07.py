@@ -39,22 +39,11 @@ def test_generate_filesystem():
     assert res == sample_fs()
 
 
-# def test_find_directories():
-#     fs = sample_fs()
+def test_dir_size():
+    fs = d7.generate_filesystem(INPUT_TEST_PATH)
 
-#     res = d7.find_directories(fs)
-#     assert res == ["/", "a", "d"]
+    res = d7.dir_size(fs, "e")
+    assert res == 584
 
-
-# def test_create_fs_dictionary():
-#     terminal_output = """$ cd /
-# $ ls
-# dir a
-# 14848514 b.txt
-# 8504156 c.dat
-# dir d"""
-#     fs_dictionary = {
-#         "/": {"a": {"b.txt": {"size": 14848514}, "c.dat": {"size": 8504156}}, "d": {}}
-#     }
-#     res = d7.create_fs_dictionary(terminal_output)
-#     assert res == fs_dictionary
+    res = d7.dir_size(fs, "d")
+    assert res == 4060174 + 8033020 + 5626152 + 7214296
