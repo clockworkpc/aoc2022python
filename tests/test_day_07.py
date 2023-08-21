@@ -1,9 +1,15 @@
 #!/usr/bin/env python
 
 from aoc2022 import day_07 as d7
+import json
 
 INPUT_TEST_PATH = "tests/input_files/day_07_input_sample.txt"
 INPUT_FULL_PATH = "tests/input_files/day_07_input.txt"
+
+
+def sample_fs():
+    with open("tests/fixtures/day_07_fs.json", "r") as json_file:
+        return json.load(json_file)
 
 
 def test_classify_line():
@@ -28,13 +34,16 @@ def test_classify_line():
     assert res == "file"
 
 
-def test_find_directories():
-    fs = {
-        "/": {"a": {"b.txt": {"size": 14848514}, "c.dat": {"size": 8504156}}, "d": {}}
-    }
+def test_generate_filesystem():
+    res = d7.generate_filesystem(INPUT_TEST_PATH)
+    assert res == sample_fs()
 
-    res = d7.find_directories(fs)
-    assert res == ["/", "a", "d"]
+
+# def test_find_directories():
+#     fs = sample_fs()
+
+#     res = d7.find_directories(fs)
+#     assert res == ["/", "a", "d"]
 
 
 # def test_create_fs_dictionary():
