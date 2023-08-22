@@ -1,6 +1,11 @@
 """Day 07"""
 
 import re
+import pprint
+
+
+def pp(x):
+    pprint.pprint(x)
 
 
 def classify_line(line):
@@ -45,24 +50,43 @@ def go_to_parent_dir(fs, ary):
 
 
 def generate_filesystem(path):
-    fs = {"/": {}}
-    parent_location = fs
-    cwd = fs["/"]
+    def directory_hash(name, parent):
+        return {"type": "directory", "name": name, "parent": parent, "size": None}
+
+    def file_hash(name, parent, size):
+        return {"type": "file", "name": name, "parent": parent, "size": size}
+
+    root_dir_hash = directory_hash("/", None)
+    fs = [root_dir_hash]
+    parent_dirs = []
+    working_dirs = ["/"]
+
+    def cpd():
+        return parent_dirs[-1]
+
+    def cwd():
+        return working_dirs[-1]
 
     lines = readlines(path)
 
     for line in lines:
+        pp(fs)
         line_type = classify_line(line)
 
         if line_type == "directory":
-            key = line.split(" ")[1]
-            cwd[key] = {}
+            name = line.split(" ")[1]
+            print(f"DIRECTORY NAME: {name}")
+            hsh = directory_hash(name, cpd())
+            fs.append(hsh)
         elif line_type == "file":
             split = line.split(" ")
             name = split[1]
+            print(f"FILE NAME: {name}")
             size = int(split[0])
-            cwd[name] = size
+            hsh = file_hash(name, cpd(), size)
+            fs.append(hsh)
         elif line_type == "command":
+            print(line)
             split = line.split(" ")
             verb = split[1]
             if verb == "ls":
@@ -70,26 +94,37 @@ def generate_filesystem(path):
             elif verb == "cd":
                 destination = split[2]
 
-                if destination == "/":
-                    cwd = fs["/"]
-                elif destination != "..":
-                    cwd = cwd[destination]
-                elif destination == "..":
-                    parent = find_parent(fs, list(cwd)[0])
-                    cwd = go_to_parent_dir(fs, parent)
+                if destination != "..":
+                    new_parent_dir = cwd()
+                    new_working_dir = destination
 
+                    parent_dirs.append(new_parent_dir)
+                    working_dirs.append(new_working_dir)
+                elif destination == "..":
+                    last_file_or_directory = fs[-1]
+                    new_working_dir_name = last_file_or_directory["parent"]
+                    working_dirs.append(new_working_dir_name)
+
+                    new_working_dir = [
+                        hsh for hsh in fs if hsh["name"] == new_working_dir_name
+                    ][0]
+                    new_parent_dir = new_working_dir["parent"]
+                    parent_dirs.append(new_parent_dir)
     return fs
 
 
-def get_all_dirs(fs):
+def get_all_dirs(fs, dirname):
     # TODO: Need to eliminate subdirectory at the same level
     keys = []
+    print(fs.items())
+    __import__("pdb").set_trace()
     for key, value in fs.items():
-        print(f"key: {key}, value: {value}")
         # keys.append(key)
         if isinstance(value, dict):
+            print(f"keys: {keys}")
+            print(f"dirname: {dirname}, key: {key}, value: {value}")
             keys.append(key)
-            keys.extend(get_all_dirs(value))
+            keys.extend(get_all_dirs(value, dirname))
     return keys
 
 
@@ -97,16 +132,13 @@ def dir_size(fs, dirname):
     cwd = fs
     file_sizes = []
 
-    dirnames = get_all_dirs(fs)
-    print(f"dirnames: {dirnames}")
+    dirnames = get_all_dirs(fs, dirname)
+    print(f"dirnames: {dirnames}\n")
     index = dirnames.index(dirname)
-    print(f"index: {index}")
     if index + 1 == len(dirnames):
         for directory in dirnames:
             cwd = cwd[directory]
-            print(f"new cwd: {cwd}")
     else:
-        print("I am here")
         dir_position = dirnames.index(dirname)
         for directory in dirnames[0: dir_position + 1]:
             cwd = cwd[directory]
