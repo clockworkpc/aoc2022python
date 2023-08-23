@@ -2,6 +2,7 @@
 
 import re
 import pprint
+import copy
 
 
 def pp(x):
@@ -70,23 +71,19 @@ def generate_filesystem(path):
     lines = readlines(path)
 
     for line in lines:
-        pp(fs)
         line_type = classify_line(line)
 
         if line_type == "directory":
             name = line.split(" ")[1]
-            print(f"DIRECTORY NAME: {name}")
-            hsh = directory_hash(name, cpd())
+            hsh = directory_hash(name, cwd())
             fs.append(hsh)
         elif line_type == "file":
             split = line.split(" ")
             name = split[1]
-            print(f"FILE NAME: {name}")
             size = int(split[0])
-            hsh = file_hash(name, cpd(), size)
+            hsh = file_hash(name, cwd(), size)
             fs.append(hsh)
         elif line_type == "command":
-            print(line)
             split = line.split(" ")
             verb = split[1]
             if verb == "ls":
@@ -113,71 +110,56 @@ def generate_filesystem(path):
     return fs
 
 
-def get_all_dirs(fs, dirname):
-    # TODO: Need to eliminate subdirectory at the same level
-    keys = []
-    print(fs.items())
-    __import__("pdb").set_trace()
-    for key, value in fs.items():
-        # keys.append(key)
-        if isinstance(value, dict):
-            print(f"keys: {keys}")
-            print(f"dirname: {dirname}, key: {key}, value: {value}")
-            keys.append(key)
-            keys.extend(get_all_dirs(value, dirname))
-    return keys
+# def get_all_dirs(fs, dirname):
+#     # TODO: Need to eliminate subdirectory at the same level
+#     keys = []
+#     for key, value in fs.items():
+#         # keys.append(key)
+#         if isinstance(value, dict):
+#             keys.append(key)
+#             keys.extend(get_all_dirs(value, dirname))
+#     return keys
 
 
-def dir_size(fs, dirname):
-    cwd = fs
-    file_sizes = []
+def directory_size(fs, dirname):
+    clone_fs = copy.copy(fs)
+    print(f"LEN FS: {len(clone_fs)}")
+    all_dirs = [hsh for hsh in clone_fs if hsh["type"] == "directory"]
+    dirnames = [dirname]
 
-    dirnames = get_all_dirs(fs, dirname)
-    print(f"dirnames: {dirnames}\n")
-    index = dirnames.index(dirname)
-    if index + 1 == len(dirnames):
-        for directory in dirnames:
-            cwd = cwd[directory]
-    else:
-        dir_position = dirnames.index(dirname)
-        for directory in dirnames[0: dir_position + 1]:
-            cwd = cwd[directory]
+    for i in range(len(all_dirs)):
+        for hsh in all_dirs:
+            print(hsh)
+            if hsh["parent"] in dirnames:
+                dirnames.append(hsh["parent"])
+                all_dirs.remove(hsh)
 
-    print(cwd)
+    for hsh in fs:
+        if hsh["type"] == "directory" and hsh["parent"] in dirnames:
+            dirnames.append(hsh["name"])
 
-    for key, value in cwd.items():
-        if type(value) is int:
-            file_sizes.append(value)
+    files = [hsh for hsh in fs if (
+        hsh["parent"] in dirnames and hsh["type"] == "file")]
+
+    file_sizes = list(map(lambda hsh: hsh["size"], files))
 
     return sum(file_sizes)
 
 
-# def find_directories(fs, parent_key="/"):
-#     nested_keys = []
-#     items = fs.items()
-#     print(items)
-#     for key, value in fs.items():
-#         if isinstance(value, dict):
-#             nested_keys.append(key)
-#             print(f"KEY: {key}, VALUE: {value}")
-#             nested_keys.extend(find_directories(value, parent_key))
-#         # else:
-#         #     nested_keys.append(parent_key)
-#     return nested_keys
+def collect_dir_sizes(fs, limit=None):
+    dirnames = [hsh["name"] for hsh in fs if hsh["type"] == "directory"]
+    dir_hsh = {}
+    for dirname in dirnames:
+        dir_size = directory_size(fs, dirname)
+        if limit and dir_size >= limit:
+            continue
+        else:
+            dir_hsh[dirname] = dir_size
+    return dir_hsh
 
 
-# def create_fs_dictionary(terminal_output):
-#     def directory_name(line):
-#         return line.split(" ")[1]
-
-#     file_system = {}
-#     lines = terminal_output.split("\n")
-
-#     cwd = file_system
-
-#     for line in lines:
-#         line_type = classify_line(line)
-#         if line_type == "directory":
-#             dirname = directory_name(line)
-
-#     return file_system
+def sum_collect_dir_sizes(fs, limit=None):
+    pp(fs)
+    hsh = collect_dir_sizes(fs, limit)
+    sizes = list(hsh.values())
+    return sum(sizes)

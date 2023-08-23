@@ -62,25 +62,25 @@
   {
     "type": "file",
     "name": "j",
-    "parent": "a",
+    "parent": "d",
     "size": 4060174
   },
   {
     "type": "file",
     "name": "d.log",
-    "parent": "a",
+    "parent": "d",
     "size": 8033020
   },
   {
     "type": "file",
     "name": "d.ext",
-    "parent": "a",
+    "parent": "d",
     "size": 5626152
   },
   {
     "type": "file",
     "name": "k",
-    "parent": "a",
+    "parent": "d",
     "size": 7214296
   }
 ]
