@@ -58,6 +58,12 @@ class FileSystem:
         self.current_dir_position = 0
 
     def find_file_or_directory(self, name, parents):
+        print(f"name: {name}")
+        print(f"parents: {parents}")
+        print(f"fs: {self.fs}")
+        if name == "a":
+            __import__("pdb").set_trace()
+        parents = [self.parent_dir_names].append(dir_name)
         return [
             hsh for hsh in self.fs if hsh["name"] == name and hsh["parents"] == parents
         ]
@@ -76,8 +82,10 @@ class FileSystem:
         self.current_dir_position = previous_dir["position"]
 
     def go_down_fs_tree(self, dir_name):
-        parents = [self.parent_dir_names].append(dir_name)
+        parents = list(self.current_dir["parents"])
+        parents.append(self.current_dir["name"])
         next_dir = self.find_file_or_directory(dir_name, parents)
+        __import__("pdb").set_trace()
 
         if next_dir:
             self.current_dir = next_dir
@@ -114,7 +122,7 @@ class FileSystem:
             self.go_down_fs_tree(dir_name)
 
     def new_directory(self, dir_name):
-        parents = self.current_dir["parents"]
+        parents = list(self.current_dir["parents"])
         parents.append(self.current_dir["name"])
         hsh = {
             "type": "directory",
@@ -141,8 +149,8 @@ class FileSystem:
         split = line.strip().split(" ")
         file_name = split[1]
         size = split[0]
-        parents = [self.current_dir["parents"]].append(
-            self.current_dir["name"])
+        parents = [self.current_dir["parents"]]
+        parents.append(self.current_dir["name"])
 
         existing_file = self.find_file_or_directory(file_name, parents)
         if existing_file:
