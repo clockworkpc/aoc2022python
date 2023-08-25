@@ -450,3 +450,126 @@ def test_scenic_top():
     assert res == 3
     res = d8.visible_to_top(grid, 4, 4)
     assert res == 1
+
+
+def test_scenic_bottom():
+    grid = ["30373", "25512", "65332", "33549", "35390"]
+
+    res = d8.visible_to_bottom(grid, 0, 4)
+    assert res == 0
+    res = d8.visible_to_bottom(grid, 1, 4)
+    assert res == 0
+    res = d8.visible_to_bottom(grid, 2, 4)
+    assert res == 0
+    res = d8.visible_to_bottom(grid, 3, 4)
+    assert res == 0
+    res = d8.visible_to_bottom(grid, 4, 4)
+    assert res == 0
+
+    res = d8.visible_to_bottom(grid, 0, 3)
+    assert res == 1
+    res = d8.visible_to_bottom(grid, 1, 3)
+    assert res == 1
+    res = d8.visible_to_bottom(grid, 2, 3)
+    assert res == 1
+    res = d8.visible_to_bottom(grid, 3, 3)
+    assert res == 1
+    res = d8.visible_to_bottom(grid, 4, 3)
+    assert res == 1
+
+    res = d8.visible_to_bottom(grid, 0, 0)
+    assert res == 2
+    res = d8.visible_to_bottom(grid, 0, 1)
+    assert res == 1
+    res = d8.visible_to_bottom(grid, 0, 2)
+    assert res == 2
+
+    res = d8.visible_to_bottom(grid, 1, 0)
+    assert res == 1
+    res = d8.visible_to_bottom(grid, 1, 1)
+    assert res == 1
+    res = d8.visible_to_bottom(grid, 1, 2)
+    assert res == 2
+
+    res = d8.visible_to_bottom(grid, 2, 0)
+    assert res == 1
+    res = d8.visible_to_bottom(grid, 2, 1)
+    assert res == 2
+    res = d8.visible_to_bottom(grid, 2, 2)
+    assert res == 1
+
+    res = d8.visible_to_bottom(grid, 3, 0)
+    assert res == 4
+    res = d8.visible_to_bottom(grid, 3, 1)
+    assert res == 1
+    res = d8.visible_to_bottom(grid, 3, 2)
+    assert res == 1
+
+    res = d8.visible_to_bottom(grid, 4, 0)
+    assert res == 3
+    res = d8.visible_to_bottom(grid, 4, 1)
+    assert res == 1
+    res = d8.visible_to_bottom(grid, 4, 2)
+    assert res == 1
+
+
+def test_scenic_score():
+    grid = ["30373", "25512", "65332", "33549", "35390"]
+
+    res = d8.scenic_score(grid, 0, 0)
+    assert res == 0
+    res = d8.scenic_score(grid, 0, 1)
+    assert res == 0
+    res = d8.scenic_score(grid, 0, 2)
+    assert res == 0
+    res = d8.scenic_score(grid, 0, 3)
+    assert res == 0
+    res = d8.scenic_score(grid, 0, 4)
+    assert res == 0
+    res = d8.scenic_score(grid, 4, 0)
+    assert res == 0
+    res = d8.scenic_score(grid, 4, 1)
+    assert res == 0
+    res = d8.scenic_score(grid, 4, 2)
+    assert res == 0
+    res = d8.scenic_score(grid, 4, 3)
+    assert res == 0
+    res = d8.scenic_score(grid, 4, 4)
+    assert res == 0
+    res = d8.scenic_score(grid, 1, 0)
+    assert res == 0
+    res = d8.scenic_score(grid, 2, 0)
+    assert res == 0
+    res = d8.scenic_score(grid, 3, 0)
+    assert res == 0
+    res = d8.scenic_score(grid, 4, 0)
+    assert res == 0
+    res = d8.scenic_score(grid, 1, 4)
+    assert res == 0
+    res = d8.scenic_score(grid, 2, 4)
+    assert res == 0
+    res = d8.scenic_score(grid, 3, 4)
+    assert res == 0
+    res = d8.scenic_score(grid, 4, 4)
+    assert res == 0
+
+    res = d8.scenic_score(grid, 1, 1)
+    assert res == 1
+    res = d8.scenic_score(grid, 1, 2)
+    assert res == 4
+    res = d8.scenic_score(grid, 1, 3)
+    assert res == 1
+
+    res = d8.scenic_score(grid, 2, 1)
+    assert res == 6
+    res = d8.scenic_score(grid, 2, 2)
+    assert res == 1
+    res = d8.scenic_score(grid, 2, 3)
+    assert res == 2
+
+    res = d8.scenic_score(grid, 3, 1)
+    assert res == 1
+    res = d8.scenic_score(grid, 3, 2)
+    assert res == 8
+    res = d8.scenic_score(grid, 3, 3)
+    assert res == 3

@@ -132,7 +132,7 @@ def visible_to_top(grid, column_index, tree_index):
 
 
 def visible_to_bottom(grid, column_index, tree_index):
-    if tree_index == 0:
+    if tree_index == 4:
         return 0
 
     column = tree_column(grid, column_index)
@@ -146,3 +146,31 @@ def visible_to_bottom(grid, column_index, tree_index):
             return vision
         index += 1
     return vision
+
+
+def scenic_score(grid, row_number, position_in_row):
+    is_top_row = row_number == 0
+    is_bottom_row = row_number == len(grid) - 1
+    is_left_column = position_in_row == 0
+    is_right_column = position_in_row == len(grid) - 1
+
+    if is_top_row or is_bottom_row or is_left_column or is_right_column:
+        return 0
+
+    row = grid[row_number]
+    left = visible_to_left(row, position_in_row)
+    right = visible_to_right(row, position_in_row)
+
+    column_index = position_in_row
+    tree_index = row_number
+    top = visible_to_top(grid, column_index, tree_index)
+    bottom = visible_to_bottom(grid, column_index, tree_index)
+
+    scores = left * right * top * bottom
+
+    print(f"row: {row_number}, tree: {position_in_row}")
+    print(f"left: {left}")
+    print(f"right: {right}")
+    print(f"top: {top}")
+    print(f"bottom: {bottom}")
+    return scores
