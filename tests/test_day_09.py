@@ -12,22 +12,116 @@ def sample_map():
         return json.load(json_file)
 
 
-def test_adjacent():
-    obj = d9
-    line = "R 4"
-    head, tail = obj.move_pieces(line)
-    print(head)
-    print(tail)
-    assert len(head["x"]) == 4
-    assert len(head["y"]) == 0
-    assert len(tail["x"]) == 3
-    assert len(head["y"]) == 0
+# def test_adjacent():
+#     obj = d9.RopeGame()
 
-    line = "U 4"
-    head, tail = obj.move_pieces(line)
-    print(head)
-    print(tail)
-    assert len(head["x"]) == 4
-    assert len(head["y"]) == 0
-    assert len(tail["x"]) == 3
-    assert len(head["y"]) == 0
+#     line = "R 4"
+#     obj.move_pieces(line)
+#     assert len(obj.head["x"]) == 4
+#     assert len(obj.head["y"]) == 0
+#     assert len(obj.tail["x"]) == 3
+#     assert len(obj.tail["y"]) == 0
+#     assert obj.tail_visited == [
+#         {"x": 0, "y": 0},
+#         {"x": 1, "y": 0},
+#         {"x": 2, "y": 0},
+#         {"x": 3, "y": 0},
+#     ]
+
+#     line = "U 4"
+#     obj.move_pieces(line)
+#     assert len(obj.head["x"]) == 4
+#     assert len(obj.head["y"]) == 4
+#     assert len(obj.tail["x"]) == 4
+#     assert len(obj.tail["y"]) == 3
+
+#     assert obj.tail_visited == [
+#         {"x": 0, "y": 0},
+#         {"x": 1, "y": 0},
+#         {"x": 2, "y": 0},
+#         {"x": 3, "y": 0},
+#         {"x": 4, "y": 1},
+#         {"x": 4, "y": 2},
+#         {"x": 4, "y": 3},
+#     ]
+#     line = "L 3"
+#     obj.move_pieces(line)
+#     assert len(obj.head["x"]) == 1
+#     assert len(obj.head["y"]) == 4
+#     assert len(obj.tail["x"]) == 2
+#     assert len(obj.tail["y"]) == 4
+
+#     assert obj.tail_visited == [
+#         {"x": 0, "y": 0},
+#         {"x": 1, "y": 0},
+#         {"x": 2, "y": 0},
+#         {"x": 3, "y": 0},
+#         {"x": 4, "y": 1},
+#         {"x": 4, "y": 2},
+#         {"x": 4, "y": 3},
+#         {"x": 3, "y": 4},
+#         {"x": 2, "y": 4},
+#     ]
+#     line = "D 1"
+#     obj.move_pieces(line)
+#     assert len(obj.head["x"]) == 1
+#     assert len(obj.head["y"]) == 3
+#     assert len(obj.tail["x"]) == 2
+#     assert len(obj.tail["y"]) == 4
+
+#     line = "R 4"
+#     obj.move_pieces(line)
+#     assert len(obj.head["x"]) == 5
+#     assert len(obj.head["y"]) == 3
+#     assert len(obj.tail["x"]) == 4
+#     assert len(obj.tail["y"]) == 3
+
+#     line = "D 1"
+#     obj.move_pieces(line)
+#     assert len(obj.head["x"]) == 5
+#     assert len(obj.head["y"]) == 2
+#     assert len(obj.tail["x"]) == 4
+#     assert len(obj.tail["y"]) == 3
+
+#     line = "L 5"
+#     obj.move_pieces(line)
+#     assert len(obj.head["x"]) == 0
+#     assert len(obj.head["y"]) == 2
+#     assert len(obj.tail["x"]) == 1
+#     assert len(obj.tail["y"]) == 2
+
+#     line = "R 2"
+#     obj.move_pieces(line)
+#     assert len(obj.head["x"]) == 2
+#     assert len(obj.head["y"]) == 2
+#     assert len(obj.tail["x"]) == 1
+#     assert len(obj.tail["y"]) == 2
+#     sorted_list = sorted(obj.tail_visited, key=lambda x: x["y"])
+
+#     assert sorted_list == [
+#         {"x": 0, "y": 0},
+#         {"x": 1, "y": 0},
+#         {"x": 2, "y": 0},
+#         {"x": 3, "y": 0},
+#         {"x": 4, "y": 1},
+#         {"x": 4, "y": 2},
+#         {"x": 3, "y": 2},
+#         {"x": 2, "y": 2},
+#         {"x": 1, "y": 2},
+#         {"x": 4, "y": 3},
+#         {"x": 3, "y": 3},
+#         {"x": 3, "y": 4},
+#         {"x": 2, "y": 4},
+#     ]
+
+#     assert len(obj.tail_visited) == 13
+
+
+def test_main():
+    obj = d9.RopeGame()
+    obj.main(INPUT_TEST_PATH)
+    assert len(obj.tail_visited) == 13
+
+    obj = d9.RopeGame()
+    obj.main(INPUT_FULL_PATH)
+    assert len(obj.tail_visited) == 6098
