@@ -166,11 +166,20 @@ def scenic_score(grid, row_number, position_in_row):
     top = visible_to_top(grid, column_index, tree_index)
     bottom = visible_to_bottom(grid, column_index, tree_index)
 
-    scores = left * right * top * bottom
+    score = left * right * top * bottom
 
-    print(f"row: {row_number}, tree: {position_in_row}")
-    print(f"left: {left}")
-    print(f"right: {right}")
-    print(f"top: {top}")
-    print(f"bottom: {bottom}")
+    return score
+
+
+def scenic_scores(path):
+    with open(path, "r") as file:
+        grid = file.read().splitlines()
+
+    scores = []
+    for row_number, row in enumerate(grid, start=0):
+        trees = list(row)
+        for index, tree in enumerate(trees, start=0):
+            score = scenic_score(grid, row_number, index)
+            scores.append(score)
+
     return scores

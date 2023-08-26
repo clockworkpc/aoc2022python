@@ -573,3 +573,15 @@ def test_scenic_score():
     assert res == 8
     res = d8.scenic_score(grid, 3, 3)
     assert res == 3
+
+
+def test_scores():
+    res = d8.scenic_scores(INPUT_TEST_PATH)
+    print(res)
+    assert max(res) == 8
+
+    res = d8.scenic_scores(INPUT_FULL_PATH)
+    uniq = set(res)
+    print(uniq)
+
+    assert max(res) == 268464
