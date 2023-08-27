@@ -16,7 +16,7 @@ def sample_map():
 #     obj = d9.RopeGame()
 
 #     line = "R 4"
-#     obj.move_pieces(line)
+#     obj.move_rope(line)
 #     assert len(obj.head["x"]) == 4
 #     assert len(obj.head["y"]) == 0
 #     assert len(obj.tail["x"]) == 3
@@ -29,7 +29,7 @@ def sample_map():
 #     ]
 
 #     line = "U 4"
-#     obj.move_pieces(line)
+#     obj.move_rope(line)
 #     assert len(obj.head["x"]) == 4
 #     assert len(obj.head["y"]) == 4
 #     assert len(obj.tail["x"]) == 4
@@ -45,7 +45,7 @@ def sample_map():
 #         {"x": 4, "y": 3},
 #     ]
 #     line = "L 3"
-#     obj.move_pieces(line)
+#     obj.move_rope(line)
 #     assert len(obj.head["x"]) == 1
 #     assert len(obj.head["y"]) == 4
 #     assert len(obj.tail["x"]) == 2
@@ -63,35 +63,35 @@ def sample_map():
 #         {"x": 2, "y": 4},
 #     ]
 #     line = "D 1"
-#     obj.move_pieces(line)
+#     obj.move_rope(line)
 #     assert len(obj.head["x"]) == 1
 #     assert len(obj.head["y"]) == 3
 #     assert len(obj.tail["x"]) == 2
 #     assert len(obj.tail["y"]) == 4
 
 #     line = "R 4"
-#     obj.move_pieces(line)
+#     obj.move_rope(line)
 #     assert len(obj.head["x"]) == 5
 #     assert len(obj.head["y"]) == 3
 #     assert len(obj.tail["x"]) == 4
 #     assert len(obj.tail["y"]) == 3
 
 #     line = "D 1"
-#     obj.move_pieces(line)
+#     obj.move_rope(line)
 #     assert len(obj.head["x"]) == 5
 #     assert len(obj.head["y"]) == 2
 #     assert len(obj.tail["x"]) == 4
 #     assert len(obj.tail["y"]) == 3
 
 #     line = "L 5"
-#     obj.move_pieces(line)
+#     obj.move_rope(line)
 #     assert len(obj.head["x"]) == 0
 #     assert len(obj.head["y"]) == 2
 #     assert len(obj.tail["x"]) == 1
 #     assert len(obj.tail["y"]) == 2
 
 #     line = "R 2"
-#     obj.move_pieces(line)
+#     obj.move_rope(line)
 #     assert len(obj.head["x"]) == 2
 #     assert len(obj.head["y"]) == 2
 #     assert len(obj.tail["x"]) == 1
@@ -118,10 +118,14 @@ def sample_map():
 
 
 def test_main():
-    obj = d9.RopeGame()
+    obj = d9.RopeGame(2)
     obj.main(INPUT_TEST_PATH)
     assert len(obj.tail_visited) == 13
 
-    obj = d9.RopeGame()
+    obj = d9.RopeGame(2)
     obj.main(INPUT_FULL_PATH)
     assert len(obj.tail_visited) == 6098
+
+    obj = d9.RopeGame(10)
+    obj.main(INPUT_FULL_PATH)
+    assert len(obj.tail_visited) == 2597
