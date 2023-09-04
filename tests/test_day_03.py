@@ -2,8 +2,6 @@
 
 from aoc2022 import day_03 as d3
 
-import json
-
 INPUT_TEST_PATH = "tests/input_files/day_03_input_sample.txt"
 INPUT_FULL_PATH = "tests/input_files/day_03_input.txt"
 PRIORITIES_PATH = "aoc2022/day_03_priorities.json"
@@ -18,12 +16,6 @@ def test_halve_line():
     assert res0[1] == "hcsFMMfFFhFp"
 
 
-def test_unique_sorted_characters():
-    half_line = "vJrwpWtwJgWr"
-    res = d3.unique_sorted_characters(half_line)
-    assert res == "JWgprtvw"
-
-
 def test_unique_lists():
     line = "vJrwpWtwJgWrhcsFMMfFFhFp"
     line_halves = d3.halve_line(line)
@@ -32,28 +24,12 @@ def test_unique_lists():
     assert res[1] == "FMcfhps"
 
 
-def test_share_items():
-    line = "vJrwpWtwJgWrhcsFMMfFFhFp"
-    line_halves = d3.halve_line(line)
-    unique_list_ary = d3.unique_lists(line_halves)
-    res = d3.share_items(unique_list_ary)
-    assert res == ["p"]
-
-
 def test_share_item_scores():
     line = "vJrwpWtwJgWrhcsFMMfFFhFp"
     line_halves = d3.halve_line(line)
     unique_list_ary = d3.unique_lists(line_halves)
     res = d3.share_item_scores(unique_list_ary)
     assert res == [16]
-
-
-def test_share_item_scores_sum():
-    line = "vJrwpWtwJgWrhcsFMMfFFhFp"
-    line_halves = d3.halve_line(line)
-    unique_list_ary = d3.unique_lists(line_halves)
-    res = d3.share_item_scores_sum(unique_list_ary)
-    assert res == 16
 
 
 def test_all_share_item_scores():
@@ -69,7 +45,7 @@ def test_all_share_item_scores_sum():
     assert res == 7872
 
 
-"""PART 02"""
+# PART 02
 
 
 def test_group_lines():
@@ -85,7 +61,7 @@ def test_group_lines():
             "CrZsJsPPZsGzwwsLwLmpwMDw",
         ],
     ]
-    res = d3.group_lines(INPUT_TEST_PATH, size=3)
+    res = d3.group_lines(INPUT_TEST_PATH)
     assert res == test_lines
 
 

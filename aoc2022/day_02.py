@@ -56,8 +56,8 @@ def player_2_fixed_item(p2_code):
 def player_2_item(p1_item, p2_code, fixed_result=False):
     if fixed_result:
         return fixed_outcome(p1_item, p2_code)
-    else:
-        return player_2_fixed_item(p2_code)
+
+    return player_2_fixed_item(p2_code)
 
 
 def round_outcome(str_ary, fixed_result=False):
@@ -98,8 +98,8 @@ def score_sums(iars):
     p1_scores = iars["p1"]
     p2_scores = iars["p2"]
 
-    p1_sums = list(map(lambda ary: sum(ary), p1_scores))
-    p2_sums = list(map(lambda ary: sum(ary), p2_scores))
+    p1_sums = [sum(ary) for ary in p1_scores]
+    p2_sums = [sum(ary) for ary in p2_scores]
 
     result = {"p1": p1_sums, "p2": p2_sums}
     return result
@@ -109,5 +109,4 @@ def final_scores(path, fixed_result=False):
     str_ary_ary = strip_split_text(path)
     iars = item_and_round_scores(str_ary_ary, fixed_result)
     ss = score_sums(iars)
-    final_scores = {"p1": sum(ss["p1"]), "p2": sum(ss["p2"])}
-    return final_scores
+    return {"p1": sum(ss["p1"]), "p2": sum(ss["p2"])}

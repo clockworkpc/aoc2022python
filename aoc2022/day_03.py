@@ -16,39 +16,24 @@ def priority_dictionary():
 
 def halve_line(line):
     half_len = int(len(line) / 2)
-    before_half_len = half_len - 1
     half1 = line[0:half_len]
     half2 = line[half_len: len(line)]
     return [half1, half2]
 
 
-def unique_sorted_characters(half_line):
-    unique_characters = "".join(set(half_line))
-    sorted_characters = "".join(sorted(unique_characters))
-    return sorted_characters
-
-
 def unique_lists(line_halves):
     usc_ary = []
     for half_line in line_halves:
-        usc = unique_sorted_characters(half_line)
-        usc_ary.append(usc)
+        unique_sorted_chars = "".join(sorted(set(half_line)))
+        usc_ary.append(unique_sorted_chars)
     return usc_ary
 
 
-def share_items(usc_ary):
-    return [item for item in usc_ary[0] if item in usc_ary[1]]
-
-
 def share_item_scores(usc_ary):
-    chars = share_items(usc_ary)
+    chars = [item for item in usc_ary[0] if item in usc_ary[1]]
     p_dict = priority_dictionary()
     scores = list(map(lambda x: p_dict[x], chars))
     return scores
-
-
-def share_item_scores_sum(usc_ary):
-    return sum(share_item_scores(usc_ary))
 
 
 def split_strip(path):
@@ -63,7 +48,7 @@ def all_share_item_scores(path):
     for line in lines:
         line_halves = halve_line(line)
         usc_ary = unique_lists(line_halves)
-        score = share_item_scores_sum(usc_ary)
+        score = sum(share_item_scores(usc_ary))
         score_ary.append(score)
 
     return score_ary
@@ -74,10 +59,7 @@ def all_share_item_scores_sum(path):
     return sum(scores)
 
 
-"""PART 02"""
-
-
-def group_lines(path, size=3):
+def group_lines(path):
     group_ary = [[]]
     lines = split_strip(path)
     for index, line in enumerate(lines, 1):
@@ -91,9 +73,6 @@ def group_lines(path, size=3):
 
 
 def common_group_items(grouped_lines):
-    def reduce_lists(nested_list):
-        return list(map(lambda x: list(set(x)), nested_list))
-
     def extract_common_items(str_ary):
         collection = []
         for index, string in enumerate(str_ary, 1):
@@ -102,7 +81,7 @@ def common_group_items(grouped_lines):
 
             common_items = [item for item in string if item in str_ary[index]]
             collection.append(common_items)
-            collection = reduce_lists(collection)
+            collection = [list(set(x)) for x in collection]
 
         return collection
 

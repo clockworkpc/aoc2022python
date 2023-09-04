@@ -50,7 +50,4 @@ setup(
     url="https://github.com/clockworkpc/aoc2022",
     version="0.1.0",
     zip_safe=False,
-    # pylint: disable=missing-module-docstring
-    # pylint: disable=missing-class-docstring
-    # pylint: disable=missing-function-docstring
 )
