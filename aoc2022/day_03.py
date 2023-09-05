@@ -1,4 +1,21 @@
 """Day 03"""
+# 1. Split a given string into substrings of equal length
+# 2. Find the character(s) shared by the substrings
+# 3. For each shared character return its numeric value
+# 4. For the list of strings, return the sum-total
+#       of the numeric values of the shared characters
+#       from each pair of equal-length substrings
+
+# For a given list of strings:
+#   return the sum-total of the numeric values
+#   of the characters
+#   that are shared
+#   by the equal-length substrings
+
+# To achieve this:
+# 1. Return a numeric value for a given alphabetic character
+# 2. Find the shared character in pair of substrings
+# 3. Split a string into equal-length substrings
 
 
 import json
@@ -8,32 +25,9 @@ PRIORITIES_PATH = "aoc2022/day_03_priorities.json"
 
 """Part 01"""
 
-
-def priority_dictionary():
-    with open(PRIORITIES_PATH, "r") as file:
-        return json.load(file)
-
-
-def halve_line(line):
-    half_len = int(len(line) / 2)
-    half1 = line[0:half_len]
-    half2 = line[half_len: len(line)]
-    return [half1, half2]
-
-
-def unique_lists(line_halves):
-    usc_ary = []
-    for half_line in line_halves:
-        unique_sorted_chars = "".join(sorted(set(half_line)))
-        usc_ary.append(unique_sorted_chars)
-    return usc_ary
-
-
-def share_item_scores(usc_ary):
-    chars = [item for item in usc_ary[0] if item in usc_ary[1]]
-    p_dict = priority_dictionary()
-    scores = list(map(lambda x: p_dict[x], chars))
-    return scores
+# 1. Return a numeric value for a given alphabetic character
+with open(PRIORITIES_PATH, "r") as file:
+    PRIORITY = json.load(file)
 
 
 def split_strip(path):
@@ -46,10 +40,13 @@ def all_share_item_scores(path):
     score_ary = []
 
     for line in lines:
-        line_halves = halve_line(line)
-        usc_ary = unique_lists(line_halves)
-        score = sum(share_item_scores(usc_ary))
-        score_ary.append(score)
+        # 3. Split a string into equal-length substrings
+        half_len = int(len(line) / 2)
+        string1, string2 = [line[:half_len], line[half_len:]]
+        # 2. Find the shared character in pair of substrings
+        shared_chars = [char for char in string1 if char in string2]
+        line_scores = list(set([PRIORITY[char] for char in shared_chars]))
+        score_ary.append(sum(line_scores))
 
     return score_ary
 
@@ -103,9 +100,8 @@ def collect_common_group_items(path):
 
 def collect_common_group_item_scores(path):
     common_items = collect_common_group_items(path)
-    pd = priority_dictionary()
-    common_scores = list(map(lambda x: pd[x], common_items))
 
+    common_scores = [PRIORITY[x] for x in common_items]
     return common_scores
 
 
